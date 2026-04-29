@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tanisha Patil — Tech UGC Creator</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+
+:root {
+  --bg:        #0e0b0f;
+  --bg2:       #120f14;
+  --surface:   #1a1520;
+  --surface2:  #201927;
+  --rose:      #e8a4b4;
+  --blush:     #f2c4ce;
+  --mauve:     #c9a0b4;
+  --champagne: #f0dfc8;
+  --lilac:     #c4aed4;
+  --dim:       #7a6a78;
+  --border:    rgba(200,160,180,0.12);
+  --border2:   rgba(200,160,180,0.22);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--champagne);
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* CURSOR */
+.cursor {
+  width: 10px; height: 10px;
+  background: var(--rose);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%,-50%);
+  transition: width 0.3s, height 0.3s;
+  mix-blend-mode: screen;
+}
+.cursor-ring {
+  width: 32px; height: 32px;
+  border: 1px solid rgba(232,164,180,0.45);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%,-50%);
+}
+
+/* GRAIN */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0.55;
+}
+
+/* AMBIENT GLOWS */
+.glow-orb { position: fixed; border-radius: 50%; filter: blur(130px); pointer-events: none; z-index: 0; }
+.glow-1 { width: 700px; height: 700px; background: radial-gradient(circle, rgba(201,160,180,0.07) 0%, transparent 70%); top: -250px; right: -200px; }
+.glow-2 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(196,174,212,0.06) 0%, transparent 70%); bottom: 15%; left: -180px; }
+.glow-3 { width: 350px; height: 350px; background: radial-gradient(circle, rgba(232,164,180,0.05) 0%, transparent 70%); top: 55%; right: 8%; }
+
+/* FLOATING PETALS */
+.fp { position: fixed; pointer-events: none; z-index: 0; opacity: 0; color: var(--rose); animation: fpFloat linear infinite; }
+@keyframes fpFloat {
+  0%   { transform: translateY(105vh) rotate(0deg); opacity: 0; }
+  8%   { opacity: 0.11; }
+  92%  { opacity: 0.05; }
+  100% { transform: translateY(-15vh) rotate(380deg); opacity: 0; }
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 22px 56px;
+  backdrop-filter: blur(22px) saturate(1.5);
+  background: rgba(14,11,15,0.58);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo { font-family: 'Great Vibes', cursive; font-size: 27px; color: var(--rose); }
+.nav-links { display: flex; gap: 36px; list-style: none; }
+.nav-links a { color: var(--dim); text-decoration: none; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 400; transition: color 0.3s; }
+.nav-links a:hover { color: var(--blush); }
+
+/* HERO */
+.hero { min-height: 100vh; display: grid; grid-template-columns: 1.15fr 0.85fr; position: relative; z-index: 1; padding-top: 80px; }
+
+.hero-left { display: flex; flex-direction: column; justify-content: center; padding: 80px 56px 80px 68px; }
+
+.pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  border: 1px solid var(--border2); background: rgba(232,164,180,0.06);
+  padding: 7px 18px; border-radius: 100px;
+  font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--rose); margin-bottom: 38px; width: fit-content;
+  backdrop-filter: blur(8px);
+}
+.pill::before {
+  content: ''; width: 6px; height: 6px;
+  background: var(--rose); border-radius: 50%;
+  box-shadow: 0 0 8px var(--rose);
+  animation: sp 2.5s ease-in-out infinite;
+}
+@keyframes sp {
+  0%,100% { opacity:1; box-shadow:0 0 8px var(--rose); }
+  50% { opacity:0.35; box-shadow:0 0 2px var(--rose); }
+}
+
+.hero-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300; font-size: clamp(60px, 8.5vw, 106px);
+  line-height: 0.93; letter-spacing: -0.015em; color: var(--champagne);
+}
+.hero-name em { font-style: italic; color: var(--rose); }
+
+.hero-script { font-family: 'Great Vibes', cursive; font-size: clamp(30px, 4vw, 46px); color: var(--mauve); margin: 10px 0 30px; opacity: 0.88; }
+
+.hero-desc { font-size: 15px; color: var(--dim); max-width: 400px; line-height: 1.85; margin-bottom: 44px; }
+.hero-desc span { color: var(--blush); }
+
+.ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+
+.btn-r {
+  background: linear-gradient(135deg, var(--rose), var(--mauve));
+  color: var(--bg); padding: 13px 30px; border-radius: 100px;
+  text-decoration: none; font-size: 12px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  transition: all 0.3s; box-shadow: 0 4px 24px rgba(232,164,180,0.2);
+}
+.btn-r:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(232,164,180,0.32); }
+
+.btn-g {
+  border: 1px solid var(--border2); color: var(--blush);
+  padding: 13px 30px; border-radius: 100px; text-decoration: none;
+  font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+  transition: all 0.3s; backdrop-filter: blur(8px);
+}
+.btn-g:hover { background: rgba(232,164,180,0.06); border-color: var(--rose); }
+
+/* HERO IMAGE */
+.hero-right { position: relative; overflow: hidden; }
+.hero-right img { width: 100%; height: 100%; object-fit: cover; object-position: top center; filter: saturate(0.65) brightness(0.83) contrast(1.05); display: block; }
+.hero-right::before {
+  content: ''; position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(to right, var(--bg) 0%, rgba(14,11,15,0.25) 45%, transparent 75%),
+              linear-gradient(to top, var(--bg) 0%, transparent 28%);
+}
+.hero-right::after { content: ''; position: absolute; inset: 0; background: rgba(201,160,180,0.07); z-index: 2; mix-blend-mode: screen; }
+
+/* DIVIDER */
+.sdiv { width: 100%; height: 1px; background: linear-gradient(to right, transparent, var(--border2), transparent); position: relative; z-index: 1; }
+.sdiv-orn { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); font-family: 'Great Vibes', cursive; font-size: 20px; color: var(--mauve); background: var(--bg); padding: 0 16px; opacity: 0.65; }
+
+/* COLLAB STRIP */
+.cstrip {
+  position: relative; z-index: 1; padding: 26px 68px;
+  display: flex; align-items: center; gap: 32px;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(to right, rgba(232,164,180,0.025), transparent, rgba(196,174,212,0.025));
+}
+.cstrip-label { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--dim); white-space: nowrap; }
+.cstrip-dot { color: var(--dim); font-size: 16px; opacity: 0.35; }
+.cstrip-brand { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 300; font-style: italic; color: var(--blush); opacity: 0.8; }
+.open-tag { margin-left: auto; border: 1px solid var(--border2); border-radius: 100px; padding: 6px 16px; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--rose); background: rgba(232,164,180,0.05); }
+
+/* SECTIONS */
+.sw { position: relative; z-index: 1; max-width: 1160px; margin: 0 auto; padding: 100px 68px; }
+
+.ey {
+  font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase;
+  color: var(--rose); margin-bottom: 14px;
+  display: flex; align-items: center; gap: 12px;
+}
+.ey::before, .ey::after { content: '✦'; font-size: 7px; opacity: 0.55; }
+
+.st {
+  font-family: 'Cormorant Garamond', serif; font-weight: 300;
+  font-size: clamp(36px, 5vw, 58px); line-height: 1.1;
+  letter-spacing: -0.01em; color: var(--champagne); margin-bottom: 52px;
+}
+.st em { font-style: italic; color: var(--rose); }
+
+/* SERVICES */
+.sg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+.sc {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 22px; padding: 44px 36px;
+  position: relative; overflow: hidden; transition: all 0.4s ease;
+}
+.sc::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at top left, rgba(232,164,180,0.07) 0%, transparent 60%);
+  opacity: 0; transition: opacity 0.4s;
+}
+.sc:hover { border-color: var(--border2); transform: translateY(-5px); box-shadow: 0 20px 56px rgba(0,0,0,0.45); }
+.sc:hover::before { opacity: 1; }
+
+.si { width: 48px; height: 48px; border-radius: 14px; background: rgba(232,164,180,0.07); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 24px; }
+.sn { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; color: var(--blush); margin-bottom: 12px; }
+.sd { font-size: 14px; color: var(--dim); line-height: 1.75; font-weight: 300; }
+
+/* REELS */
+.rg { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+
+.rc {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 22px; overflow: hidden; transition: all 0.4s ease;
+  text-decoration: none; display: block;
+}
+.rc:hover { border-color: rgba(232,164,180,0.28); transform: translateY(-5px); box-shadow: 0 24px 64px rgba(0,0,0,0.5), 0 0 48px rgba(232,164,180,0.04); }
+
+.rt { padding: 22px 26px 0; display: flex; justify-content: space-between; align-items: center; }
+.rn { font-family: 'Cormorant Garamond', serif; font-size: 13px; font-style: italic; color: var(--dim); letter-spacing: 0.08em; }
+.rtag { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--rose); background: rgba(232,164,180,0.08); border: 1px solid rgba(232,164,180,0.18); padding: 4px 12px; border-radius: 100px; }
+
+.rb { padding: 30px 26px 36px; display: flex; flex-direction: column; align-items: center; gap: 18px; }
+
+.pring {
+  width: 66px; height: 66px; border-radius: 50%;
+  border: 1px solid rgba(232,164,180,0.28);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; transition: all 0.3s;
+}
+.pring::before { content: ''; position: absolute; inset: -5px; border-radius: 50%; border: 1px solid rgba(232,164,180,0.09); }
+.rc:hover .pring { border-color: var(--rose); box-shadow: 0 0 28px rgba(232,164,180,0.18); }
+
+.picon {
+  width: 38px; height: 38px;
+  background: linear-gradient(135deg, var(--rose), var(--mauve));
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 12px; color: var(--bg); padding-left: 3px; transition: transform 0.3s;
+}
+.rc:hover .picon { transform: scale(1.07); }
+
+.rtitle { font-family: 'Cormorant Garamond', serif; font-size: 19px; font-weight: 400; color: var(--blush); text-align: center; }
+.rsub { font-size: 11px; color: var(--dim); text-align: center; letter-spacing: 0.08em; }
+
+/* ABOUT */
+.al { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+.ap p { font-size: 15px; color: var(--dim); line-height: 1.88; margin-bottom: 18px; font-weight: 300; }
+.ap p span { color: var(--blush); }
+
+.tw { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 32px; }
+.stag {
+  border: 1px solid var(--border); padding: 7px 16px; border-radius: 100px;
+  font-size: 11px; letter-spacing: 0.08em; color: var(--dim);
+  transition: all 0.3s; background: rgba(232,164,180,0.02);
+}
+.stag:hover { border-color: rgba(232,164,180,0.3); color: var(--rose); background: rgba(232,164,180,0.06); }
+
+.apanel {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 24px; padding: 44px 40px; position: relative; overflow: hidden;
+}
+.apanel::before { content: ''; position: absolute; top: -80px; right: -80px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(196,174,212,0.08) 0%, transparent 70%); pointer-events: none; }
+
+.panel-script { font-family: 'Great Vibes', cursive; font-size: 32px; color: var(--mauve); margin-bottom: 26px; opacity: 0.85; }
+.pl { list-style: none; display: flex; flex-direction: column; gap: 18px; }
+.pl li { display: flex; gap: 14px; font-size: 14px; color: var(--dim); line-height: 1.6; }
+.lpetal { color: var(--rose); flex-shrink: 0; font-size: 9px; margin-top: 5px; opacity: 0.75; }
+
+/* CONTACT */
+#contact { text-align: center; }
+.ci {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 28px; padding: 88px 72px; max-width: 680px;
+  margin: 0 auto; position: relative; overflow: hidden;
+}
+.ci::before { content: ''; position: absolute; top: -100px; left: 50%; transform: translateX(-50%); width: 400px; height: 400px; background: radial-gradient(circle, rgba(232,164,180,0.07) 0%, transparent 65%); pointer-events: none; }
+
+.cscript { font-family: 'Great Vibes', cursive; font-size: 54px; color: var(--rose); opacity: 0.88; margin-bottom: 6px; position: relative; }
+.ctitle { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 300; color: var(--champagne); margin-bottom: 18px; line-height: 1.2; }
+.csub { font-size: 14px; color: var(--dim); margin-bottom: 44px; line-height: 1.85; }
+
+.cemail {
+  display: inline-block; font-size: 17px; color: var(--blush);
+  text-decoration: none; border-bottom: 1px solid rgba(232,164,180,0.28);
+  padding-bottom: 4px; margin-bottom: 40px; letter-spacing: 0.04em;
+  transition: all 0.3s; font-family: 'Cormorant Garamond', serif; font-style: italic;
+}
+.cemail:hover { color: var(--rose); border-color: var(--rose); }
+
+.srow { display: flex; justify-content: center; gap: 14px; margin-top: 28px; }
+.spill {
+  border: 1px solid var(--border2); border-radius: 100px; padding: 11px 22px;
+  font-size: 12px; letter-spacing: 0.1em; color: var(--mauve);
+  text-decoration: none; transition: all 0.3s; background: rgba(232,164,180,0.03);
+}
+.spill:hover { border-color: var(--rose); color: var(--rose); background: rgba(232,164,180,0.07); }
+
+/* FOOTER */
+footer {
+  position: relative; z-index: 1; border-top: 1px solid var(--border);
+  padding: 32px 68px; display: flex; justify-content: space-between; align-items: center;
+}
+.flogo { font-family: 'Great Vibes', cursive; font-size: 22px; color: var(--mauve); opacity: 0.65; }
+.fcopy { font-size: 11px; letter-spacing: 0.12em; color: var(--dim); }
+.fright { font-size: 11px; letter-spacing: 0.1em; color: var(--dim); text-align: right; }
+
+/* ANIMATIONS */
+.fade-up { opacity: 0; transform: translateY(32px); animation: ru 0.9s cubic-bezier(0.22,1,0.36,1) forwards; }
+@keyframes ru { to { opacity:1; transform:translateY(0); } }
+.d1{animation-delay:.1s}.d2{animation-delay:.26s}.d3{animation-delay:.42s}.d4{animation-delay:.58s}.d5{animation-delay:.74s}
+
+.reveal { opacity:0; transform:translateY(22px); transition:opacity 0.8s ease, transform 0.8s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  nav{padding:18px 24px;}
+  .nav-links{display:none;}
+  .hero{grid-template-columns:1fr;}
+  .hero-right{height:52vh;order:-1;}
+  .hero-left{padding:40px 28px;}
+  .sw{padding:64px 28px;}
+  .sg{grid-template-columns:1fr;}
+  .rg{grid-template-columns:1fr;}
+  .al{grid-template-columns:1fr;gap:36px;}
+  .ci{padding:52px 28px;}
+  footer{padding:24px 28px;flex-direction:column;gap:8px;text-align:center;}
+  .cstrip{padding:20px 28px;gap:20px;}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="glow-orb glow-1"></div>
+<div class="glow-orb glow-2"></div>
+<div class="glow-orb glow-3"></div>
+
+<!-- floating petals -->
+<div class="fp" style="left:7%;animation-duration:19s;animation-delay:2s;font-size:12px;">✿</div>
+<div class="fp" style="left:23%;animation-duration:23s;animation-delay:7s;font-size:10px;">❀</div>
+<div class="fp" style="left:64%;animation-duration:17s;animation-delay:0s;font-size:14px;">✾</div>
+<div class="fp" style="left:81%;animation-duration:25s;animation-delay:10s;font-size:10px;">✿</div>
+<div class="fp" style="left:46%;animation-duration:21s;animation-delay:15s;font-size:11px;">❀</div>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">Tanisha Patil</span>
+  <ul class="nav-links">
+    <li><a href="#work">work</a></li>
+    <li><a href="#services">services</a></li>
+    <li><a href="#about">about</a></li>
+    <li><a href="#contact">contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="pill fade-up d1">Available for Collabs</div>
+    <h1 class="hero-name fade-up d2">Tanisha<br><em>Patil.</em></h1>
+    <p class="hero-script fade-up d3">Tech UGC Creator</p>
+    <p class="hero-desc fade-up d4"><span>Honest reviews & demos</span> for Indian audiences. I make tech feel real — not like an ad.</p>
+    <div class="ctas fade-up d5">
+      <a href="#work" class="btn-r">View My Work</a>
+      <a href="#contact" class="btn-g">Work With Me</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img src="/mnt/user-data/uploads/IMG_2552.jpeg" alt="Tanisha Patil">
+  </div>
+</div>
+
+<!-- COLLAB STRIP -->
+<div class="cstrip">
+  <span class="cstrip-label">Worked With</span>
+  <span class="cstrip-dot">✦</span>
+  <span class="cstrip-brand">SalahKart</span>
+  <span class="open-tag">Open for New Collabs</span>
+</div>
+
+<!-- SERVICES -->
+<div class="sw" id="services">
+  <p class="ey reveal">What I Create</p>
+  <h2 class="st reveal">My <em>Services</em></h2>
+  <div class="sg">
+    <div class="sc reveal">
+      <div class="si">📱</div>
+      <div class="sn">Short-Form Video</div>
+      <p class="sd">Reels & TikTok-style videos that hook in the first 3 seconds. Scripted, shot, and edited to convert.</p>
+    </div>
+    <div class="sc reveal">
+      <div class="si">🎙️</div>
+      <div class="sn">Voiceover & Narration</div>
+      <p class="sd">Warm, clear voiceovers for app demos and tutorials. Relatable and real — never robotic.</p>
+    </div>
+    <div class="sc reveal">
+      <div class="si">📦</div>
+      <div class="sn">Unboxing & Reviews</div>
+      <p class="sd">Authentic unboxing content for gadgets and tech. Real reactions, real opinions, real results.</p>
+    </div>
+  </div>
+</div>
+
+<div class="sdiv"><span class="sdiv-orn">✦</span></div>
+
+<!-- WORK -->
+<div class="sw" id="work">
+  <p class="ey reveal">Portfolio</p>
+  <h2 class="st reveal">My <em>Work</em></h2>
+  <div class="rg">
+    <a href="https://www.instagram.com/reel/DXkapoFDGAB/" target="_blank" class="rc reveal">
+      <div class="rt"><span class="rn">No. 01</span><span class="rtag">App Review</span></div>
+      <div class="rb">
+        <div class="pring"><div class="picon">▶</div></div>
+        <div class="rtitle">App Review / Demo</div>
+        <div class="rsub">Watch on Instagram · @tanscreates</div>
+      </div>
+    </a>
+    <a href="https://www.instagram.com/reel/DXUmBO3DKyf/" target="_blank" class="rc reveal">
+      <div class="rt"><span class="rn">No. 02</span><span class="rtag">Tutorial</span></div>
+      <div class="rb">
+        <div class="pring"><div class="picon">▶</div></div>
+        <div class="rtitle">Tutorial / Walkthrough</div>
+        <div class="rsub">Watch on Instagram · @tanscreates</div>
+      </div>
+    </a>
+    <a href="https://www.instagram.com/reel/DXpZUQzjGCF/" target="_blank" class="rc reveal">
+      <div class="rt"><span class="rn">No. 03</span><span class="rtag">Product Demo</span></div>
+      <div class="rb">
+        <div class="pring"><div class="picon">▶</div></div>
+        <div class="rtitle">Product Demo</div>
+        <div class="rsub">Watch on Instagram · @tanscreates</div>
+      </div>
+    </a>
+    <a href="https://www.instagram.com/reel/DXb05p5DAty/" target="_blank" class="rc reveal">
+      <div class="rt"><span class="rn">No. 04</span><span class="rtag">Voiceover</span></div>
+      <div class="rb">
+        <div class="pring"><div class="picon">▶</div></div>
+        <div class="rtitle">Review / Voiceover</div>
+        <div class="rsub">Watch on Instagram · @tanscreates</div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<div class="sdiv"><span class="sdiv-orn">✿</span></div>
+
+<!-- ABOUT -->
+<div class="sw" id="about">
+  <p class="ey reveal">About Me</p>
+  <div class="al">
+    <div class="ap">
+      <h2 class="st reveal" style="margin-bottom:30px;">Why brands<br><em>love working</em><br>with me</h2>
+      <p class="reveal">I'm a Mumbai-based tech UGC creator making content that feels like a <span>recommendation from a friend</span> — not a paid promotion.</p>
+      <p class="reveal">My specialty: app reviews, tutorials, and product demos for Indian audiences. <span>Brands hire me for the content itself.</span></p>
+      <p class="reveal">Content that converts. Content that actually gets watched till the end. Content that feels human.</p>
+      <div class="tw reveal">
+        <span class="stag">App Reviews</span>
+        <span class="stag">Tutorials</span>
+        <span class="stag">Unboxing</span>
+        <span class="stag">Voiceover</span>
+        <span class="stag">Short-form Video</span>
+        <span class="stag">Scripting</span>
+        <span class="stag">Mumbai Based</span>
+        <span class="stag">Hindi + English</span>
+      </div>
+    </div>
+    <div class="apanel reveal">
+      <div class="panel-script">What you get ♡</div>
+      <ul class="pl">
+        <li><span class="lpetal">✦</span> Authentic content that doesn't feel like an ad</li>
+        <li><span class="lpetal">✦</span> Fast turnaround — no chasing required</li>
+        <li><span class="lpetal">✦</span> Fully edited, ready-to-post video files</li>
+        <li><span class="lpetal">✦</span> Hook-first scripting for short attention spans</li>
+        <li><span class="lpetal">✦</span> Full usage rights — ads, social, email, anywhere</li>
+        <li><span class="lpetal">✦</span> One revision round included in every project</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="sw" id="contact">
+  <div class="ci reveal">
+    <div class="cscript">Let's create</div>
+    <h2 class="ctitle">something beautiful<br>together</h2>
+    <p class="csub">Drop me a message with your product and campaign idea.<br>I'll get back within 24 hours ✉️</p>
+    <a href="mailto:Taanspov@gmail.com" class="cemail">Taanspov@gmail.com</a><br>
+    <a href="mailto:Taanspov@gmail.com" class="btn-r" style="display:inline-block;margin-top:8px;">Send a Message</a>
+    <div class="srow">
+      <a href="https://www.instagram.com/tanscreates" target="_blank" class="spill">✿ @tanscreates</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span class="flogo">Tanisha Patil</span>
+  <p class="fcopy">© 2025 · Mumbai, India</p>
+  <p class="fright">Tech UGC Creator<br>Open for Collaborations</p>
+</footer>
+
+<script>
+// Cursor
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove', e => {
+  mx=e.clientX; my=e.clientY;
+  cursor.style.left=mx+'px'; cursor.style.top=my+'px';
+});
+(function animRing(){
+  rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12;
+  ring.style.left=rx+'px'; ring.style.top=ry+'px';
+  requestAnimationFrame(animRing);
+})();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.width='18px';cursor.style.height='18px';});
+  el.addEventListener('mouseleave',()=>{cursor.style.width='10px';cursor.style.height='10px';});
+});
+
+// Scroll reveal
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
